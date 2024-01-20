@@ -5,7 +5,8 @@ import * as path from "node:path";
 export const setupBotCommands = (client: Client) => {
   // @ts-ignore
   client.commands = new Collection();
-  const foldersPath = path.join(__dirname, "commands");
+  const foldersPath = path.join(__dirname, "..", "commands");
+
   const commandFolders = fs.readdirSync(foldersPath);
 
   for (const folder of commandFolders) {
