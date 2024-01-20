@@ -1,10 +1,14 @@
 import { Client, TextChannel, EmbedBuilder } from "discord.js";
 import { getNodeStatuses } from "../features/get-node-statuses";
 import dayjs from "dayjs";
+import {
+  DAGGER_ALERT_CHANNEL_ID,
+  DAGGER_MONOTOR_CHANNEL_ID,
+} from "../constants/channels";
 
 export const initDaggerMonitor = async (client: Client) => {
-  const channel = client.channels.cache.get("1197319601965510677");
-  const alertChannel = client.channels.cache.get("1197324145579544616");
+  const channel = client.channels.cache.get(DAGGER_MONOTOR_CHANNEL_ID);
+  const alertChannel = client.channels.cache.get(DAGGER_ALERT_CHANNEL_ID);
 
   if (!channel || !alertChannel) return;
   if (
