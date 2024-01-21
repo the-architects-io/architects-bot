@@ -29,8 +29,8 @@ const setupApi = async (bot?: ArchitectsBot) => {
   setupApiEndpoints(fastify);
 
   try {
-    await fastify.listen({ port: 3002 });
-    console.log(`Server listening at http://localhost:${3002}`);
+    await fastify.listen({ port: 3003 });
+    console.log(`Server listening at http://localhost:${3003}`);
   } catch (err) {
     console.error(err);
     process.exit(1);
