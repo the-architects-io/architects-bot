@@ -1,7 +1,13 @@
-export const handleInteraction = async (interaction, client) => {
+import { CacheType, Interaction } from "discord.js";
+import { ArchitectsBot } from "../types";
+
+export const handleInteraction = async (
+  interaction: Interaction<CacheType>,
+  bot: ArchitectsBot,
+) => {
   if (!interaction.isChatInputCommand()) return;
 
-  const command = client.commands.get(interaction.commandName);
+  const command = bot.commands.get(interaction.commandName);
 
   if (!command) {
     console.error(`No command matching ${interaction.commandName} was found.`);
