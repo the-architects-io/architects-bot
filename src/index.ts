@@ -60,5 +60,4 @@ const setupBot = async () => {
   bot.login(token);
 };
 
-setupApi();
 setupBot();
