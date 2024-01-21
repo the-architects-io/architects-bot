@@ -26,7 +26,7 @@ export const setupApiEndpoints = (
       .setDescription(
         `
 \`\`\`  
-${request.body}
+${JSON.stringify(request.body, null, 2)}
 \`\`\`
       `,
       )
