@@ -7,30 +7,9 @@ import { handleInteraction } from "./commands";
 import { createServer } from "http";
 import Fastify from "fastify";
 import { ArchitectsBot } from "./types";
+import { setupApiEndpoints } from "./api";
 
-const setupBot = async () => {
-  const bot = new Client({
-    intents: [GatewayIntentBits.Guilds],
-  }) as ArchitectsBot;
-
-  setupBotCommands(bot);
-
-  bot.on(Events.ClientReady, (readyBot) => {
-    initDaggerMonitor(readyBot);
-  });
-
-  bot.on(Events.InteractionCreate, async (interaction) => {
-    handleInteraction(interaction, bot);
-  });
-
-  bot.once(Events.ClientReady, (readyBot) => {
-    console.log(`Ready! Logged in as ${readyBot.user.tag}`);
-  });
-
-  bot.login(token);
-};
-
-const setupApi = async () => {
+const setupApi = async (bot: ArchitectsBot) => {
   const httpServer = createServer();
   const fastify = Fastify({
     logger: true,
@@ -47,9 +26,7 @@ const setupApi = async () => {
     origin: "*",
   });
 
-  fastify.get("/bot/hello", async (request, reply) => {
-    return { greeting: "HELLO I AM ARCBOT" };
-  });
+  setupApiEndpoints(fastify, bot);
 
   try {
     await fastify.listen({ port: 3002 });
@@ -60,5 +37,27 @@ const setupApi = async () => {
   }
 };
 
+const setupBot = async () => {
+  const bot = new Client({
+    intents: [GatewayIntentBits.Guilds],
+  }) as ArchitectsBot;
+
+  setupBotCommands(bot);
+
+  bot.on(Events.ClientReady, (readyBot) => {
+    setupApi(readyBot as ArchitectsBot);
+    initDaggerMonitor(readyBot);
+  });
+
+  bot.on(Events.InteractionCreate, async (interaction) => {
+    handleInteraction(interaction, bot);
+  });
+
+  bot.once(Events.ClientReady, (readyBot) => {
+    console.log(`Ready! Logged in as ${readyBot.user.tag}`);
+  });
+
+  bot.login(token);
+};
+
 setupBot();
-setupApi();

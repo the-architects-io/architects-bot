@@ -1,0 +1,32 @@
+import { FastifyInstance } from "fastify";
+import { ArchitectsBot } from "../types";
+import { SYSTEM_ERRORS_CHANNEL_ID } from "../constants/channels";
+import { EmbedBuilder } from "@discordjs/builders";
+import dayjs from "dayjs";
+
+export const setupApiEndpoints = (
+  fastify: FastifyInstance,
+  bot: ArchitectsBot,
+) => {
+  fastify.get("/bot/hello", async (request, reply) => {
+    return { greeting: "HELLO I AM ARCBOT" };
+  });
+
+  fastify.post("/bot/report-error", async (request, reply) => {
+    const channel = bot.channels.cache.get(SYSTEM_ERRORS_CHANNEL_ID);
+
+    const embed = new EmbedBuilder()
+      .setTitle("System Error")
+      .setDescription(
+        `
+\`\`\`  
+${request.body}
+\`\`\`
+      `,
+      )
+      .setFooter({
+        text: "Error occurred " + dayjs().format("MM-DD-YY @ HH:mm:ss"),
+      })
+      .setColor(0xff5733);
+  });
+};
