@@ -47,8 +47,8 @@ const setupApi = async () => {
     origin: "*",
   });
 
-  fastify.get("/api", async (request, reply) => {
-    return { hello: "world - api" };
+  fastify.get("/bot/hello", async (request, reply) => {
+    return { hello: "HELLO I AM ARCBOT" };
   });
 
   try {
