@@ -1,7 +1,6 @@
 export const handleInteraction = async (interaction, client) => {
   if (!interaction.isChatInputCommand()) return;
 
-  // @ts-ignore
   const command = client.commands.get(interaction.commandName);
 
   if (!command) {

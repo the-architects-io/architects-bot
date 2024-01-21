@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc --build",
-    "start": "ts-node src/index.ts",
+    "start": "build && dev",
     "dev": "ts-node src/index.ts",
     "deploy-commands": "ts-node src/deploy-commands.ts"
   },
@@ -15,9 +15,12 @@
   "license": "ISC",
   "dependencies": {
     "@discordjs/builders": "^1.7.0",
+    "@fastify/cors": "^8.5.0",
+    "cors": "^2.8.5",
     "dayjs": "^1.11.10",
     "discord.js": "^14.14.1",
     "dotenv": "^16.3.1",
+    "fastify": "^4.25.2",
     "install": "^0.13.0"
   },
   "devDependencies": {
