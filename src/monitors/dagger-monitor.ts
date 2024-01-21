@@ -40,6 +40,7 @@ export const initDaggerMonitor = async (client: Client) => {
         .setColor(statuses.some(({ isActive }) => !isActive) ? "Red" : "Green");
 
       if (statusMessage) {
+        console.log(`Sending message to channel ID: ${channel.id}`);
         await statusMessage.edit({ embeds: [embed] });
       } else {
         statusMessage = await channel.send({ embeds: [embed] });
@@ -56,6 +57,7 @@ export const initDaggerMonitor = async (client: Client) => {
           .setColor("Red");
 
         if (alertMessage) {
+          console.log(`Sending message to channel ID: ${channel.id}`);
           await alertMessage.edit({ embeds: [alertEmbed] });
         } else {
           alertMessage = await alertChannel.send({ embeds: [alertEmbed] });
