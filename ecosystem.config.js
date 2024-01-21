@@ -1,6 +1,6 @@
 module.exports = {
   apps: [{
-    name: 'architects-bot',
+    name: 'bot',
     script: 'dist/src/index.js',
     args: 'src/index.ts',
     interpreter: 'none',
