@@ -3,6 +3,7 @@ import { ArchitectsBot } from "../types";
 import { SYSTEM_ERRORS_CHANNEL_ID } from "../constants/channels";
 import { EmbedBuilder } from "@discordjs/builders";
 import dayjs from "dayjs";
+import { TextChannel } from "discord.js";
 
 export const setupApiEndpoints = (
   fastify: FastifyInstance,
@@ -14,6 +15,11 @@ export const setupApiEndpoints = (
 
   fastify.post("/bot/report-error", async (request, reply) => {
     const channel = bot.channels.cache.get(SYSTEM_ERRORS_CHANNEL_ID);
+
+    if (!channel || !(channel instanceof TextChannel)) {
+      console.error("Channel not found or it is not a text channel.");
+      return;
+    }
 
     const embed = new EmbedBuilder()
       .setTitle("System Error")
@@ -28,5 +34,7 @@ ${request.body}
         text: "Error occurred " + dayjs().format("MM-DD-YY @ HH:mm:ss"),
       })
       .setColor(0xff5733);
+
+    await channel.send({ embeds: [embed] });
   });
 };
