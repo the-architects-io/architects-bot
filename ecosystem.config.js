@@ -1,7 +1,7 @@
 module.exports = {
   apps: [{
-    name: 'my-ts-app',
-    script: 'node_modules/ts-node/dist/bin.js',
+    name: 'architects-bot',
+    script: 'dist/src/index.js',
     args: 'src/index.ts',
     interpreter: 'none',
     env: {
