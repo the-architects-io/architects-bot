@@ -1,12 +1,9 @@
 import { Client, Collection } from "discord.js";
 import * as fs from "node:fs";
 import * as path from "node:path";
+import { ArchitectsBot } from "../types";
 
-export interface CustomClient extends Client {
-  commands: Collection<string, any>;
-}
-
-export const setupBotCommands = (client: CustomClient) => {
+export const setupBotCommands = (client: ArchitectsBot) => {
   client.commands = new Collection();
   const commandsPath = path.join(__dirname, "..", "commands");
   const commandFiles = fs
