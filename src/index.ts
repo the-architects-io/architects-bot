@@ -9,7 +9,7 @@ import Fastify from "fastify";
 import { ArchitectsBot } from "./types";
 import { setupApiEndpoints } from "./api";
 
-const setupApi = async (bot: ArchitectsBot) => {
+const setupApi = async (bot?: ArchitectsBot) => {
   const httpServer = createServer();
   const fastify = Fastify({
     logger: true,
@@ -26,7 +26,7 @@ const setupApi = async (bot: ArchitectsBot) => {
     origin: "*",
   });
 
-  setupApiEndpoints(fastify, bot);
+  setupApiEndpoints(fastify);
 
   try {
     await fastify.listen({ port: 3002 });
@@ -60,4 +60,5 @@ const setupBot = async () => {
   bot.login(token);
 };
 
+setupApi();
 setupBot();
