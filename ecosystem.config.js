@@ -1,7 +1,7 @@
 module.exports = {
   apps: [{
     name: 'bot',
-    script: 'dist/src/index.js',
+    script: 'dist/index.js',
     args: 'src/index.ts',
     interpreter: 'none',
     env: {
