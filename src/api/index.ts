@@ -25,9 +25,9 @@ export const setupApiEndpoints = (
       .setTitle("System Error")
       .setDescription(
         `
-  \`\`\`
-  ${JSON.stringify(request.body, null, 2)}
-  \`\`\`
+\`\`\`
+${JSON.stringify(request.body, null, 2)}
+\`\`\`
         `,
       )
       .setFooter({
