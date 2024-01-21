@@ -1,4 +1,4 @@
-import { Client, TextChannel, EmbedBuilder } from "discord.js";
+import { Client, TextChannel, EmbedBuilder, Message } from "discord.js";
 import { getNodeStatuses } from "../features/get-node-statuses";
 import dayjs from "dayjs";
 import {
@@ -21,8 +21,8 @@ export const initDaggerMonitor = async (client: Client) => {
     return;
   }
 
-  let statusMessage;
-  let alertMessage;
+  let statusMessage: Message | null = null;
+  let alertMessage: Message | null = null;
 
   setInterval(async () => {
     try {
