@@ -48,7 +48,7 @@ const setupApi = async () => {
   });
 
   fastify.get("/bot/hello", async (request, reply) => {
-    return { hello: "HELLO I AM ARCBOT" };
+    return { greeting: "HELLO I AM ARCBOT" };
   });
 
   try {
