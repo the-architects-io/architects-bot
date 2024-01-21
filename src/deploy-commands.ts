@@ -6,7 +6,10 @@ import * as path from "node:path";
 const commands = [];
 // Grab all the command folders from the commands directory you created earlier
 const foldersPath = path.join(__dirname, "commands");
-const commandFolders = fs.readdirSync(foldersPath);
+const commandFolders = fs.readdirSync(foldersPath).filter((folder) => {
+  const folderPath = path.join(foldersPath, folder);
+  return fs.statSync(folderPath).isDirectory();
+});
 
 console.log({
   foldersPath,
@@ -14,16 +17,18 @@ console.log({
 });
 
 for (const folder of commandFolders) {
-  // Grab all the command files from the commands directory you created earlier
+  // Grab all the command files from each command directory
   const commandsPath = path.join(foldersPath, folder);
   const commandFiles = fs
     .readdirSync(commandsPath)
     .filter((file) => file.endsWith(".ts"));
+
   console.log({
     commandsPath,
     commandFiles,
   });
-  // Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
+
+  // Process each command file
   for (const file of commandFiles) {
     console.log({
       file,
@@ -59,7 +64,6 @@ const rest = new REST().setToken(token);
       `Successfully reloaded ${data.length} application (/) commands.`,
     );
   } catch (error) {
-    // And of course, make sure you catch and log any errors!
     console.error(error);
   }
 })();
