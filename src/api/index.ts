@@ -41,6 +41,10 @@ export const setupApiEndpoints = (
       { name: "Context", value: metadata?.context },
     ];
 
+    console.log("in bot", {
+      error,
+      metadata,
+    });
     console.log("error instanceof AxiosError", error instanceof AxiosError);
 
     if (error instanceof AxiosError && !!error?.config?.url) {
