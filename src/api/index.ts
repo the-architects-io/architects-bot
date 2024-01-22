@@ -4,6 +4,7 @@ import { SYSTEM_ERRORS_CHANNEL_ID } from "../constants/channels";
 import { EmbedBuilder } from "@discordjs/builders";
 import dayjs from "dayjs";
 import { TextChannel } from "discord.js";
+import { AxiosError } from "axios";
 
 export const setupApiEndpoints = (
   fastify: FastifyInstance,
@@ -21,12 +22,36 @@ export const setupApiEndpoints = (
       return;
     }
 
+    const { error, metadata } = request.body as unknown as {
+      // errorResponse = error?.response?.data?.error;
+
+      error:
+        | Error
+        | (AxiosError extends { response: { data: { error: infer E } } }
+            ? E
+            : never);
+      metadata: {
+        context: string;
+      } & Record<string, string>;
+    };
+
+    const fields = [
+      { name: "Error", value: error.message },
+      { name: "Error", value: metadata?.message },
+      { name: "Context", value: metadata?.context },
+    ];
+
+    if (error instanceof AxiosError && !!error?.config?.url) {
+      fields.push({ name: "URL", value: error.config.url });
+    }
+
     const embed = new EmbedBuilder()
       .setTitle("System Error")
+      .addFields([...fields, { name: "\u200B", value: "\u200B" }])
       .setDescription(
         `
 \`\`\`
-${JSON.stringify(request.body, null, 2)}
+${JSON.stringify(metadata.rawError, null, 2)}
 \`\`\`
         `,
       )
