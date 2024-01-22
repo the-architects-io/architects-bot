@@ -41,6 +41,8 @@ export const setupApiEndpoints = (
       { name: "Context", value: metadata?.context },
     ];
 
+    console.log("error instanceof AxiosError", error instanceof AxiosError);
+
     if (error instanceof AxiosError && !!error?.config?.url) {
       fields.push({ name: "URL", value: error.config.url });
     }
