@@ -47,8 +47,15 @@ export const setupApiEndpoints = (
     });
     console.log("error instanceof AxiosError", error instanceof AxiosError);
 
-    if (error instanceof AxiosError && !!error?.config?.url) {
+    // @ts-ignore
+    if (!!error?.config?.url) {
+      // @ts-ignore
       fields.push({ name: "URL", value: error.config.url });
+    }
+    // @ts-ignore
+    if (!!error?.config?.code) {
+      // @ts-ignore
+      fields.push({ name: "Code", value: error.config.code });
     }
 
     const embed = new EmbedBuilder()
