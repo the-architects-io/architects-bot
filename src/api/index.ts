@@ -37,7 +37,7 @@ export const setupApiEndpoints = (
 
     const fields = [
       { name: "Error", value: error.message },
-      { name: "Error", value: metadata?.message },
+      { name: "Message", value: metadata?.message },
       { name: "Context", value: metadata?.context },
     ];
 
@@ -53,14 +53,14 @@ export const setupApiEndpoints = (
       fields.push({ name: "URL", value: error.config.url });
     }
     // @ts-ignore
-    if (!!error?.config?.code) {
+    if (!!error?.code) {
       // @ts-ignore
-      fields.push({ name: "Code", value: error.config.code });
+      fields.push({ name: "Code", value: error.code });
     }
 
     const embed = new EmbedBuilder()
       .setTitle("System Error")
-      .addFields([...fields, { name: "\u200B", value: "\u200B" }])
+      .addFields([{ name: "\u200B", value: "\u200B" }, ...fields])
       .setDescription(
         `
 \`\`\`
