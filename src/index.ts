@@ -12,6 +12,9 @@ import { setupApiEndpoints } from "./api";
 import { setupEventListeners, setupMemoryWatcher } from "./ws/setup";
 import { setupWalletsWatcher } from "./features/watchers/wallet-watcher";
 
+import dotenv from "dotenv";
+dotenv.config();
+
 const setupApi = async (bot: ArchitectsBot) => {
   const httpServer = createServer();
   const fastify = Fastify({
