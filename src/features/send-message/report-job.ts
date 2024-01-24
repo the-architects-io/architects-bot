@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { ArchitectsBot } from "../types";
-import { JOBS_CHANNEL_ID } from "../constants/channels";
+import { ArchitectsBot } from "../../types";
+import { JOBS_CHANNEL_ID } from "../../constants";
 import { Message, TextChannel } from "discord.js";
 import { EmbedBuilder } from "@discordjs/builders";
 import dayjs from "dayjs";
@@ -53,7 +53,7 @@ const JobIcons = {
 
 type JobIconType = (typeof JobIcons)[keyof typeof JobIcons];
 
-type Job = {
+export type Job = {
   id: string;
   status: {
     id: string;
@@ -67,26 +67,28 @@ type Job = {
     id: string;
     name: string;
   };
+  cluster?: string;
 };
 
 const buildEmbed = (job: Job) => {
   console.log({ job });
   const fields = [
     { name: "ID", value: job.id },
-    // { name: "User", value: job.user.displayName },
     { name: "Message", value: job?.statusText ? job.statusText : "" },
+    // { name: "User", value: job.user.displayName },
     // { name: "Status", value: job.status.name },
     {
       name: "Current Step Progress",
       value: job?.percentComplete ? `${job.percentComplete}%` : "N/A",
     },
+    { name: "Cluster", value: job?.cluster ? job.cluster : "N/A" },
   ];
 
-  const jobType = job?.jobType?.name ? job.jobType.name : "Upload Job";
+  const jobType = job?.jobType?.name ? job.jobType.name : "Job";
 
   const embed = new EmbedBuilder()
     .setTitle(jobType)
-    .addFields([{ name: "\u200B", value: "\u200B" }, ...fields])
+    .addFields([...fields, { name: "\u200B", value: "\u200B" }])
     .setDescription(
       `
 \`\`\`
@@ -103,8 +105,10 @@ ${JSON.stringify(job, null, 2)}
 };
 
 export const reportJob = async (
-  request: FastifyRequest,
-  reply: FastifyReply,
+  job: Job,
+  metadata: {
+    context: string;
+  } & Record<string, string>,
   bot: ArchitectsBot,
 ) => {
   const channel = bot.channels.cache.get(JOBS_CHANNEL_ID);
@@ -113,10 +117,6 @@ export const reportJob = async (
     console.error("Channel not found or it is not a text channel.");
     return;
   }
-
-  const { job } = request.body as unknown as {
-    job: Job;
-  };
 
   const messages = await channel.messages.fetch({ limit: 100 });
 

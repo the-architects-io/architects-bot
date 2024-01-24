@@ -1,7 +1,8 @@
 import { FastifyInstance } from "fastify";
 import { ArchitectsBot } from "../types";
-import { reportError } from "./report-error";
-import { reportJob } from "./report-job";
+import { reportError } from "../features/send-message/report-error";
+import { Job, reportJob } from "../features/send-message/report-job";
+import { AxiosError } from "axios";
 
 export const setupApiEndpoints = (
   fastify: FastifyInstance,
@@ -12,10 +13,28 @@ export const setupApiEndpoints = (
   });
 
   fastify.post("/bot/report-error", async (request, reply) => {
-    reportError(request, reply, bot);
+    const { error, metadata } = request.body as unknown as {
+      error:
+        | Error
+        | (AxiosError extends { response: { data: { error: infer E } } }
+            ? E
+            : never);
+      metadata: {
+        context: string;
+      } & Record<string, string>;
+    };
+
+    reportError(error, metadata, bot);
   });
 
   fastify.post("/bot/report-job", async (request, reply) => {
-    reportJob(request, reply, bot);
+    const { job, metadata } = request.body as unknown as {
+      job: Job;
+      metadata: {
+        context: string;
+      } & Record<string, string>;
+    };
+
+    reportJob(job, metadata, bot);
   });
 };

@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import {
   DAGGER_ALERT_CHANNEL_ID,
   DAGGER_MONOTOR_CHANNEL_ID,
-} from "../constants/channels";
+} from "../constants";
 
 export const initDaggerMonitor = async (client: Client) => {
   const channel = client.channels.cache.get(DAGGER_MONOTOR_CHANNEL_ID);

@@ -1,3 +1,4 @@
+import WebSocket from "ws";
 import { Client, Events, GatewayIntentBits } from "discord.js";
 import cors from "@fastify/cors";
 import { token } from "../config.json";
@@ -8,6 +9,11 @@ import { createServer } from "http";
 import Fastify from "fastify";
 import { ArchitectsBot } from "./types";
 import { setupApiEndpoints } from "./api";
+import {
+  setupEventListeners,
+  setupMemoryWatcher,
+  setupWalletsWatcher,
+} from "./ws/setup";
 
 const setupApi = async (bot: ArchitectsBot) => {
   const httpServer = createServer();
@@ -27,6 +33,31 @@ const setupApi = async (bot: ArchitectsBot) => {
   });
 
   setupApiEndpoints(fastify, bot);
+
+  fastify.ready((err) => {
+    console.log("fastify.ready, setting up ws server");
+    if (err) throw err;
+
+    const wss = new WebSocket.Server({ server: httpServer });
+
+    wss.on("connection", function (ws: WebSocket) {
+      console.log("Client connected");
+
+      const id = setupMemoryWatcher(ws);
+      setupEventListeners(ws);
+
+      setupWalletsWatcher(ws, bot);
+
+      ws.on("close", function () {
+        console.log("stopping client interval");
+        clearInterval(id);
+      });
+    });
+
+    wss.on("error", (error) => {
+      console.error("WebSocket Server Error:", error);
+    });
+  });
 
   try {
     await fastify.listen({ port: 3002 });

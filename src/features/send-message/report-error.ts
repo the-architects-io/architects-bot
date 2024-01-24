@@ -1,14 +1,15 @@
-import { FastifyReply, FastifyRequest } from "fastify";
-import { ArchitectsBot } from "../types";
-import { SYSTEM_ERRORS_CHANNEL_ID } from "../constants/channels";
+import { ArchitectsBot } from "../../types";
+import { SYSTEM_ERRORS_CHANNEL_ID } from "../../constants";
 import { TextChannel } from "discord.js";
 import { AxiosError } from "axios";
 import { EmbedBuilder } from "@discordjs/builders";
 import dayjs from "dayjs";
 
 export const reportError = async (
-  request: FastifyRequest,
-  reply: FastifyReply,
+  error: Error | AxiosError,
+  metadata: {
+    context: string;
+  } & Record<string, string>,
   bot: ArchitectsBot,
 ) => {
   const channel = bot.channels.cache.get(SYSTEM_ERRORS_CHANNEL_ID);
@@ -17,17 +18,6 @@ export const reportError = async (
     console.error("Channel not found or it is not a text channel.");
     return;
   }
-
-  const { error, metadata } = request.body as unknown as {
-    error:
-      | Error
-      | (AxiosError extends { response: { data: { error: infer E } } }
-          ? E
-          : never);
-    metadata: {
-      context: string;
-    } & Record<string, string>;
-  };
 
   const fields = [
     { name: "Error", value: error.message },
