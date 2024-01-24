@@ -38,6 +38,9 @@ export const setupWalletsWatcher = (bot: ArchitectsBot) => {
       console.log({
         messageObj,
       });
+
+      if (!messageObj?.method) return;
+
       reportWalletUpdate(
         {
           message: messageObj,

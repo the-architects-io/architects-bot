@@ -22,7 +22,7 @@ export const reportWalletUpdate = async (
 
   if (balanceInLamports) {
     const balanceInSol = balanceInLamports / 1000000000;
-    fields.push({ name: "SOL Balance", value: balanceInSol });
+    fields.push({ name: "SOL Balance", value: balanceInSol.toString() });
   }
 
   const embed = new EmbedBuilder()
