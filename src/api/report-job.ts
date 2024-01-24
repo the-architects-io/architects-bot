@@ -70,11 +70,12 @@ type Job = {
 };
 
 const buildEmbed = (job: Job) => {
+  console.log({ job });
   const fields = [
     { name: "ID", value: job.id },
     // { name: "User", value: job.user.displayName },
     { name: "Message", value: job?.statusText ? job.statusText : "" },
-    { name: "Status", value: job.status.name },
+    // { name: "Status", value: job.status.name },
     {
       name: "Current Step Progress",
       value: job?.percentComplete ? `${job.percentComplete}%` : "N/A",
