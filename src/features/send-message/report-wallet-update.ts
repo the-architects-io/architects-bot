@@ -37,7 +37,7 @@ export const reportWalletUpdate = async (
 
   const embed = new EmbedBuilder()
     .setTitle("System Wallet Update")
-    .addFields([...fields, { name: "\u200B", value: "\u200B" }])
+    .addFields([...fields])
     .setDescription(
       `
 Last action:

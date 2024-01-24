@@ -44,7 +44,7 @@ export const reportError = async (
 
   const embed = new EmbedBuilder()
     .setTitle("System Error")
-    .addFields([{ name: "\u200B", value: "\u200B" }, ...fields])
+    .addFields([...fields])
     .setDescription(
       `
 \`\`\`

@@ -88,7 +88,7 @@ const buildEmbed = (job: Job) => {
 
   const embed = new EmbedBuilder()
     .setTitle(jobType)
-    .addFields([...fields, { name: "\u200B", value: "\u200B" }])
+    .addFields([...fields])
     .setDescription(
       `
 \`\`\`
