@@ -7,5 +7,5 @@ export const BASE_URL = "http://localhost:3002/bot";
 export const RPC_ENDPOINT_DEVNET = "https://api.devnet.solana.com";
 export const RPC_ENDPOINT = process.env.RPC_ENDPOINT;
 export const BOT_API_URL = "http://localhost:3002/bot";
-export const HELIUS_API_KEY = process.env.HELIS_API_KEY;
+export const HELIUS_API_KEY = process.env.HELIUS_API_KEY;
 export const EXECUTION_WALLET_ADDRESS = process.env.EXECUTION_WALLET_ADDRESS;
