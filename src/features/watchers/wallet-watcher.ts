@@ -35,8 +35,16 @@ export const setupWalletsWatcher = (bot: ArchitectsBot) => {
     const messageStr = data.toString("utf8");
     try {
       const messageObj = JSON.parse(messageStr);
-      console.log({ messageObj });
-      reportWalletUpdate(messageObj, bot);
+      console.log({
+        messageObj,
+      });
+      reportWalletUpdate(
+        {
+          ...messageObj,
+          address: EXECUTION_WALLET_ADDRESS,
+        },
+        bot,
+      );
     } catch (e) {
       console.error("Failed to parse JSON:", e);
     }

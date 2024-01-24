@@ -1,10 +1,6 @@
 import { ArchitectsBot } from "../../types";
-import {
-  SYSTEM_ERRORS_CHANNEL_ID,
-  SYSTEM_WALLETS_CHANNEL_ID,
-} from "../../constants";
+import { SYSTEM_WALLETS_CHANNEL_ID } from "../../constants";
 import { TextChannel } from "discord.js";
-import { AxiosError } from "axios";
 import { EmbedBuilder } from "@discordjs/builders";
 import dayjs from "dayjs";
 
@@ -19,8 +15,17 @@ export const reportWalletUpdate = async (
     return;
   }
 
+  const balanceInLamports = walletUpdate?.params?.result?.value?.lamports;
+  const fields = [{ name: "Address", value: walletUpdate?.address }];
+
+  if (balanceInLamports) {
+    const balanceInSol = balanceInLamports / 1000000000;
+    fields.push({ name: "SOL Balance", value: balanceInSol });
+  }
+
   const embed = new EmbedBuilder()
     .setTitle("System Wallet Update")
+    .addFields([...fields, { name: "\u200B", value: "\u200B" }])
     .setDescription(
       `
 \`\`\`
