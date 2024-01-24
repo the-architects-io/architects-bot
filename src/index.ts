@@ -33,6 +33,7 @@ const setupApi = async (bot: ArchitectsBot) => {
   });
 
   setupApiEndpoints(fastify, bot);
+  setupWalletsWatcher(bot);
 
   fastify.ready((err) => {
     console.log("fastify.ready, setting up ws server");
@@ -45,8 +46,6 @@ const setupApi = async (bot: ArchitectsBot) => {
 
       const id = setupMemoryWatcher(ws);
       setupEventListeners(ws);
-
-      setupWalletsWatcher(ws, bot);
 
       ws.on("close", function () {
         console.log("stopping client interval");
