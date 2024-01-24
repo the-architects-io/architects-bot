@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 export const DAGGER_MONOTOR_CHANNEL_ID = "1198411560117358602";
 export const DAGGER_ALERT_CHANNEL_ID = "1197324145579544616";
 export const SYSTEM_ERRORS_CHANNEL_ID = "1197404078590926918";
