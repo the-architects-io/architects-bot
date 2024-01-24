@@ -40,6 +40,7 @@ export const reportWalletUpdate = async (
     .addFields([...fields, { name: "\u200B", value: "\u200B" }])
     .setDescription(
       `
+Last action:
 \`\`\`
 ${JSON.stringify(walletUpdate, null, 2)}
 \`\`\`
