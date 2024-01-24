@@ -15,8 +15,10 @@ export const reportWalletUpdate = async (
     return;
   }
 
-  const balanceInLamports = walletUpdate?.params?.result?.value?.lamports;
-  const fields = [{ name: "Address", value: walletUpdate?.address }];
+  const { address, message } = walletUpdate;
+
+  const balanceInLamports = message?.params?.result?.value?.lamports;
+  const fields = [{ name: "Address", value: address }];
 
   if (balanceInLamports) {
     const balanceInSol = balanceInLamports / 1000000000;

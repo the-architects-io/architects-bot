@@ -40,7 +40,7 @@ export const setupWalletsWatcher = (bot: ArchitectsBot) => {
       });
       reportWalletUpdate(
         {
-          ...messageObj,
+          message: messageObj,
           address: EXECUTION_WALLET_ADDRESS,
         },
         bot,
