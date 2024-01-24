@@ -25,6 +25,16 @@ export const reportWalletUpdate = async (
     fields.push({ name: "SOL Balance", value: balanceInSol.toString() });
   }
 
+  const messages = await channel.messages.fetch({ limit: 100 });
+
+  const existingMessage = messages.find((message) =>
+    message.embeds.some((embed) =>
+      embed.fields.some(
+        (field) => field.name === "Address" && field.value === address,
+      ),
+    ),
+  );
+
   const embed = new EmbedBuilder()
     .setTitle("System Wallet Update")
     .addFields([...fields, { name: "\u200B", value: "\u200B" }])
@@ -40,5 +50,9 @@ ${JSON.stringify(walletUpdate, null, 2)}
     })
     .setColor(0x335733);
 
-  await channel.send({ embeds: [embed] });
+  if (existingMessage) {
+    await existingMessage.edit({ embeds: [embed] });
+  } else {
+    await channel.send({ embeds: [embed] });
+  }
 };

@@ -91,6 +91,7 @@ const buildEmbed = (job: Job) => {
     .addFields([...fields, { name: "\u200B", value: "\u200B" }])
     .setDescription(
       `
+Last action:
 \`\`\`
 ${JSON.stringify(job, null, 2)}
 \`\`\`
