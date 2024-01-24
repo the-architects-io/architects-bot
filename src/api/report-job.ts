@@ -72,7 +72,7 @@ type Job = {
 const buildEmbed = (job: Job) => {
   const fields = [
     { name: "ID", value: job.id },
-    { name: "User", value: job.user.displayName },
+    // { name: "User", value: job.user.displayName },
     { name: "Message", value: job?.statusText ? job.statusText : "" },
     { name: "Status", value: job.status.name },
     {
