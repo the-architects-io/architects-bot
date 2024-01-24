@@ -101,7 +101,7 @@ ${JSON.stringify(job, null, 2)}
   return embed;
 };
 
-export const updateJob = async (
+export const reportJob = async (
   request: FastifyRequest,
   reply: FastifyReply,
   bot: ArchitectsBot,

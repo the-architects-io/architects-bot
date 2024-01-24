@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { ArchitectsBot } from "../types";
 import { reportError } from "./report-error";
-import { updateJob } from "./update-job";
+import { reportJob } from "./report-job";
 
 export const setupApiEndpoints = (
   fastify: FastifyInstance,
@@ -16,6 +16,6 @@ export const setupApiEndpoints = (
   });
 
   fastify.post("/bot/report-job", async (request, reply) => {
-    updateJob(request, reply, bot);
+    reportJob(request, reply, bot);
   });
 };
