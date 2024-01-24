@@ -5,9 +5,9 @@ import { reportWalletUpdate } from "../send-message/report-wallet-update";
 
 export const setupWalletsWatcher = (bot: ArchitectsBot) => {
   // Create a WebSocket connection
-  const heliusWs = new WebSocket(
-    `wss://atlas-mainnet.helius-rpc.com?api-key=${HELIUS_API_KEY}`,
-  );
+  const url = `wss://atlas-mainnet.helius-rpc.com?api-key=${HELIUS_API_KEY}`;
+  console.log({ url });
+  const heliusWs = new WebSocket(url);
 
   // Function to send a request to the WebSocket server
   function sendRequest() {
