@@ -9,11 +9,8 @@ import { createServer } from "http";
 import Fastify from "fastify";
 import { ArchitectsBot } from "./types";
 import { setupApiEndpoints } from "./api";
-import {
-  setupEventListeners,
-  setupMemoryWatcher,
-  setupWalletsWatcher,
-} from "./ws/setup";
+import { setupEventListeners, setupMemoryWatcher } from "./ws/setup";
+import { setupWalletsWatcher } from "./features/watchers/wallet-watcher";
 
 const setupApi = async (bot: ArchitectsBot) => {
   const httpServer = createServer();
