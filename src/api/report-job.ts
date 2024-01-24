@@ -96,7 +96,7 @@ ${JSON.stringify(job, null, 2)}
     .setFooter({
       text: "Last updated " + dayjs().format("MM-DD-YY @ HH:mm:ss"),
     })
-    .setColor(0xff5733);
+    .setColor(0x335733);
 
   return embed;
 };
