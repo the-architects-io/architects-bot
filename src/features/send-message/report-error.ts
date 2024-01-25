@@ -4,6 +4,7 @@ import { TextChannel } from "discord.js";
 import { AxiosError } from "axios";
 import { EmbedBuilder } from "@discordjs/builders";
 import dayjs from "dayjs";
+import { convertNumbersToStrings } from "../../utils/json";
 
 export const reportError = async (
   error: Error | AxiosError,
@@ -19,27 +20,30 @@ export const reportError = async (
     return;
   }
 
+  const stringifiedError = convertNumbersToStrings(error);
+  const stringifiedMetadata = convertNumbersToStrings(metadata);
+
   const fields = [
-    { name: "Error", value: error.message },
-    { name: "Message", value: metadata?.message },
-    { name: "Context", value: metadata?.context },
+    { name: "Error", value: stringifiedError.message },
+    { name: "Message", value: stringifiedMetadata?.message },
+    { name: "Context", value: stringifiedMetadata?.context },
   ];
 
   console.log("in bot", {
-    error,
-    metadata,
+    error: stringifiedError,
+    metadata: stringifiedMetadata,
   });
   console.log("error instanceof AxiosError", error instanceof AxiosError);
 
   // @ts-ignore
-  if (!!error?.config?.url) {
+  if (!!stringifiedError?.config?.url) {
     // @ts-ignore
-    fields.push({ name: "URL", value: error.config.url });
+    fields.push({ name: "URL", value: stringifiedError.config.url });
   }
   // @ts-ignore
-  if (!!error?.code) {
+  if (!!stringifiedError?.code) {
     // @ts-ignore
-    fields.push({ name: "Code", value: error.code });
+    fields.push({ name: "Code", value: stringifiedError.code });
   }
 
   const embed = new EmbedBuilder()

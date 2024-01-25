@@ -3,6 +3,7 @@ import { HEX_COLORS, SYSTEM_WALLETS_CHANNEL_ID } from "../../constants";
 import { TextChannel } from "discord.js";
 import { EmbedBuilder } from "@discordjs/builders";
 import dayjs from "dayjs";
+import { convertNumbersToStrings } from "../../utils/json";
 
 export const reportWalletUpdate = async (
   walletUpdate: any,
@@ -15,7 +16,7 @@ export const reportWalletUpdate = async (
     return;
   }
 
-  const { address, message } = walletUpdate;
+  const { address, message } = convertNumbersToStrings(walletUpdate);
 
   const balanceInLamports = message?.params?.result?.value?.lamports;
   const fields = [{ name: "Address", value: address }];

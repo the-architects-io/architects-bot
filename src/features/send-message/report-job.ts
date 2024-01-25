@@ -4,6 +4,7 @@ import { HEX_COLORS, JOBS_CHANNEL_ID } from "../../constants";
 import { Message, TextChannel } from "discord.js";
 import { EmbedBuilder } from "@discordjs/builders";
 import dayjs from "dayjs";
+import { convertNumbersToStrings } from "../../utils/json";
 
 // from nhost
 export interface User {
@@ -142,7 +143,7 @@ export const reportJob = async (
     ),
   );
 
-  const embed = buildEmbed(job);
+  const embed = buildEmbed(convertNumbersToStrings(job));
 
   if (existingMessage) {
     await existingMessage.edit({ embeds: [embed] });
