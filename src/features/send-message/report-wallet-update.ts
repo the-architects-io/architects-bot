@@ -1,5 +1,5 @@
 import { ArchitectsBot } from "../../types";
-import { SYSTEM_WALLETS_CHANNEL_ID } from "../../constants";
+import { HEX_COLORS, SYSTEM_WALLETS_CHANNEL_ID } from "../../constants";
 import { TextChannel } from "discord.js";
 import { EmbedBuilder } from "@discordjs/builders";
 import dayjs from "dayjs";
@@ -19,9 +19,7 @@ export const reportWalletUpdate = async (
 
   const balanceInLamports = message?.params?.result?.value?.lamports;
   const fields = [{ name: "Address", value: address }];
-
-  const RED = 0xff3333;
-  const GREEN = 0x33ff33;
+  const { GREEN, RED } = HEX_COLORS;
   let color = GREEN;
 
   let lastBalanceInSol;

@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { ArchitectsBot } from "../../types";
-import { JOBS_CHANNEL_ID } from "../../constants";
+import { ArchitectsBot, StatusUUIDs } from "../../types";
+import { HEX_COLORS, JOBS_CHANNEL_ID } from "../../constants";
 import { Message, TextChannel } from "discord.js";
 import { EmbedBuilder } from "@discordjs/builders";
 import dayjs from "dayjs";
@@ -86,6 +86,11 @@ const buildEmbed = (job: Job) => {
 
   const jobType = job?.jobType?.name ? job.jobType.name : "Job";
 
+  const { GREEN, RED } = HEX_COLORS;
+  // @ts-ignore
+  const statusId = job?.status?.id || job?.statusId;
+  let color = statusId === StatusUUIDs.ERROR ? RED : GREEN;
+
   const embed = new EmbedBuilder()
     .setTitle(jobType)
     .addFields([...fields])
@@ -99,7 +104,7 @@ ${JSON.stringify(job, null, 2)}
     .setFooter({
       text: "Last updated " + dayjs().format("MM-DD-YY @ HH:mm:ss"),
     })
-    .setColor(0x335733);
+    .setColor(color);
 
   return embed;
 };
