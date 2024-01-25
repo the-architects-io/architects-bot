@@ -91,8 +91,8 @@ const buildEmbed = (job: Job) => {
   // @ts-ignore
   const statusId = job?.status?.id || job?.statusId;
   let color = statusId === StatusUUIDs.ERROR ? RED : GREEN;
-  const successImage = `http://localhost:3002/images/success-kiko.png`;
-  const errorImage = `http://localhost:3002/images/error-kiko.png`;
+  const successImage = `https://shdw-drive.genesysgo.net/9iM4vhJjH1meXtkZ5ysWz6Pir8hghU6tVsmH8wdiocJP/success-kiko.png`;
+  const errorImage = `https://shdw-drive.genesysgo.net/9iM4vhJjH1meXtkZ5ysWz6Pir8hghU6tVsmH8wdiocJP/error-kiko.png`;
 
   const embed = new EmbedBuilder()
     .setTitle(jobType)
