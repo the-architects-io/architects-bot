@@ -16,6 +16,7 @@
   "dependencies": {
     "@discordjs/builders": "^1.7.0",
     "@fastify/cors": "^8.5.0",
+    "@fastify/static": "^6.12.0",
     "@nhost/nextjs": "^2.0.2",
     "@nhost/react-apollo": "^7.0.2",
     "axios": "^1.6.5",
@@ -24,7 +25,6 @@
     "discord.js": "^14.14.1",
     "dotenv": "^16.3.1",
     "fastify": "^4.25.2",
-    "fastify-static": "^4.7.0",
     "install": "^0.13.0",
     "ts-node": "^10.9.2",
     "ws": "^8.16.0"

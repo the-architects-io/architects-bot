@@ -11,8 +11,6 @@ import { ArchitectsBot } from "./types";
 import { setupApiEndpoints } from "./api";
 import { setupEventListeners, setupMemoryWatcher } from "./ws/setup";
 import { setupWalletsWatcher } from "./features/watchers/wallet-watcher";
-// @ts-ignore
-import fastifyStatic from "fastify-static";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -30,10 +28,9 @@ const setupApi = async (bot: ArchitectsBot) => {
     },
   });
 
-  // Serve static files from the 'images' directory
-  fastify.register(fastifyStatic, {
+  fastify.register(require("@fastify/static"), {
     root: "./images",
-    prefix: "/images/",
+    prefix: "/images/", // optional: default '/'
   });
 
   await fastify.register(cors, {
