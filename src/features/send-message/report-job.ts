@@ -90,6 +90,8 @@ const buildEmbed = (job: Job) => {
   // @ts-ignore
   const statusId = job?.status?.id || job?.statusId;
   let color = statusId === StatusUUIDs.ERROR ? RED : GREEN;
+  const successImage = `http://localhost:3002/images/success-kiko.png`;
+  const errorImage = `http://localhost:3002/images/error-kiko.png`;
 
   const embed = new EmbedBuilder()
     .setTitle(jobType)
@@ -103,8 +105,15 @@ ${JSON.stringify(job, null, 2)}
     )
     .setFooter({
       text: "Last updated " + dayjs().format("MM-DD-YY @ HH:mm:ss"),
-    })
-    .setColor(color);
+    });
+
+  if (statusId === StatusUUIDs.ERROR) {
+    embed.setColor(color).setImage(errorImage);
+  } else if (statusId === StatusUUIDs.COMPLETE) {
+    embed.setColor(color).setImage(successImage);
+  } else {
+    embed.setColor(color);
+  }
 
   return embed;
 };
