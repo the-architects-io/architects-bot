@@ -29,7 +29,7 @@ const setupApi = async (bot: ArchitectsBot) => {
   });
 
   fastify.register(require("@fastify/static"), {
-    root: "./images",
+    root: __dirname + "/images",
     prefix: "/images/", // optional: default '/'
   });
 
