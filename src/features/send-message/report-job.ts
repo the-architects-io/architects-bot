@@ -97,19 +97,21 @@ const buildEmbed = (job: Job) => {
   const embed = new EmbedBuilder()
     .setTitle(jobType)
     .addFields([...fields])
-    .setDescription(
-      `
-\`\`\`
-${JSON.stringify(job, null, 2)}
-\`\`\`
-        `,
-    )
     .setFooter({
       text: "Last updated " + dayjs().format("MM-DD-YY @ HH:mm:ss"),
     });
 
   if (statusId === StatusUUIDs.ERROR) {
-    embed.setColor(color).setImage(errorImage);
+    embed
+      .setColor(color)
+      .setImage(errorImage)
+      .setDescription(
+        `
+\`\`\`
+${JSON.stringify(job, null, 2)}
+\`\`\`
+        `,
+      );
   } else if (statusId === StatusUUIDs.COMPLETE) {
     embed.setColor(color).setImage(successImage);
   } else {
