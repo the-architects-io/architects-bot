@@ -73,17 +73,27 @@ export type Job = {
 
 const buildEmbed = (job: Job) => {
   console.log({ job });
+  if (!job) return new EmbedBuilder().setTitle("Job not found");
   const fields = [
     { name: "ID", value: job.id },
     { name: "Message", value: job?.statusText ? job.statusText : "" },
     // { name: "User", value: job.user.displayName },
     // { name: "Status", value: job.status.name },
-    {
+  ];
+
+  if (!!job?.percentComplete && job?.percentComplete > 0) {
+    fields.push({
       name: "Current Step Progress",
       value: job?.percentComplete ? `${job.percentComplete}%` : "N/A",
-    },
-    { name: "Cluster", value: job?.cluster ? job.cluster : "N/A" },
-  ];
+    });
+  }
+
+  if (!!job?.cluster) {
+    fields.push({
+      name: "Cluster",
+      value: job.cluster,
+    });
+  }
 
   const jobType = job?.jobType?.name ? job.jobType.name : "Job";
 
