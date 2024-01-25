@@ -20,9 +20,29 @@ export const reportWalletUpdate = async (
   const balanceInLamports = message?.params?.result?.value?.lamports;
   const fields = [{ name: "Address", value: address }];
 
+  const RED = 0xff3333;
+  const GREEN = 0x33ff33;
+  let color = GREEN;
+
+  let lastBalanceInSol;
+  let balanceChangeInSol;
   if (balanceInLamports) {
     const balanceInSol = balanceInLamports / 1000000000;
-    fields.push({ name: "SOL Balance", value: balanceInSol.toString() });
+    if (lastBalanceInSol) {
+      balanceChangeInSol = balanceInSol - lastBalanceInSol;
+      color = balanceChangeInSol > 0 ? GREEN : RED;
+      fields.push({
+        name: "Balance Change",
+        value: balanceChangeInSol.toString(),
+      });
+    }
+    lastBalanceInSol = balanceInSol;
+    const minimumBalanceInSol = 1;
+    const solBalanceString =
+      balanceInSol > minimumBalanceInSol
+        ? `${balanceInSol.toString()} SOL`
+        : `⚠️⚠️ ${balanceInSol.toString()} SOL ⚠️⚠️`;
+    fields.push({ name: "Balance", value: solBalanceString });
   }
 
   const messages = await channel.messages.fetch({ limit: 100 });
@@ -49,7 +69,7 @@ ${JSON.stringify(walletUpdate, null, 2)}
     .setFooter({
       text: "Last updated " + dayjs().format("MM-DD-YY @ HH:mm:ss"),
     })
-    .setColor(0x335733);
+    .setColor(color);
 
   if (existingMessage) {
     await existingMessage.edit({ embeds: [embed] });
